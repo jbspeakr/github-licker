@@ -31,7 +31,8 @@ class Licker(object):
 
         self.request_headers = {
             'Authorization': 'token %s' % token,
-            'Accept': 'application/vnd.github.drax-preview+json'}
+            'Accept': 'application/vnd.github.drax-preview+json'  # Required for developer preview
+        }
 
     def _fetch_repositories(self):
         page_number = 1
