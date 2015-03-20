@@ -57,8 +57,8 @@ class Licker(object):
         return repositories
 
     def _fetch_license_information(self, repositories):
-        repos_with_license = []
-        repos_without_license = []
+        repositories_with_license = []
+        repositories_without_license = []
 
         print('start fetching license information...')
         for repository in repositories:
@@ -71,24 +71,24 @@ class Licker(object):
                 json_response = json.loads(response.decode('utf-8'))
 
                 if json_response['license']:
-                    repos_with_license.append({
+                    repositories_with_license.append({
                         'name': repository['name'],
                         'license': json_response['license']['name']})
                 else:
-                    repos_without_license.append(repository['name'])
+                    repositories_without_license.append(repository['name'])
 
-        return Repositories(repos_with_license, repos_without_license)
+        return Repositories(repositories_with_license, repositories_without_license)
 
     def run_license_analysis(self):
-        repositories = self._fetch_repositories()
-        repos = self._fetch_license_information(repositories)
+        all_repositories = self._fetch_repositories()
+        non_fork_repositories = self._fetch_license_information(all_repositories)
 
-        if repos.with_license:
-            print('\nfound %s repositories with license:\n' % len(repos.with_license))
-            for repository in repos.with_license:
+        if non_fork_repositories.with_license:
+            print('\nfound %s all_repositories with license:\n' % len(non_fork_repositories.with_license))
+            for repository in non_fork_repositories.with_license:
                 print('\t%s -- %s' % (repository['name'], repository['license']))
 
-        if repos.without_license:
-            print('\nfound %s repositories without license:\n' % len(repos.without_license))
-            for repository in repos.without_license:
+        if non_fork_repositories.without_license:
+            print('\nfound %s all_repositories without license:\n' % len(non_fork_repositories.without_license))
+            for repository in non_fork_repositories.without_license:
                 print('\t%s' % repository)
