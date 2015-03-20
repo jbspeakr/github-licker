@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.4"
+install:
+  - pip install pybuilder
+  - pip install coveralls
+  - pyb install_dependencies
+script: "pyb"
+after_success:
+  - coveralls --verbose
