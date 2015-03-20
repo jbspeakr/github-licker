@@ -1,4 +1,5 @@
 # Github Licker
+[![Build Status](https://travis-ci.org/jbspeakr/github-licker.svg?branch=master)](https://travis-ci.org/jbspeakr/github-licker)
 [![Codacy Badge](https://www.codacy.com/project/badge/8392a84f11634b27a985b334d56ab089)](https://www.codacy.com/public/jan_1691/github-licker)
 
 **Licker - Your Github License Checker for Organisational Repositories.**
