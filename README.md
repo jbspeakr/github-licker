@@ -3,7 +3,7 @@
 
 **Licker - Your Github License Checker for Organisational Repositories.**
 
-Using the Github API v3 including the [Licenses API](https://developer.github.com/v3/licenses/) developer preview, 
+Using the [Github API v3](https://developer.github.com/v3/) including the [Licenses API](https://developer.github.com/v3/licenses/) developer preview, 
 Licker is able to check licenses of all repositories in your Github organisation. It helps especially identifying repos 
 without license file.
 
