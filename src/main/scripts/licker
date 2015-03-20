@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+# Licker - Github License Checker for Organisational Repositories
+# Copyright 2015 Jan Brennenstuhl
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""
+usage:
+    licker [TOKEN] [options]
+
+options:
+    -o, --organisation=ORGANISATION  the Github organisation you want to check [default: ImmobilienScout24]
+"""
+
+from docopt import docopt
+from licker import Licker
+import sys
+
+
+def run():
+    arguments = docopt(__doc__)
+    organisation = arguments["--organisation"]
+    token = arguments['TOKEN']
+
+    if not token:
+        with open('GITHUB_TOKEN', 'r') as fd:
+            token = fd.readline().strip()  # Can't hurt to be paranoid
+
+    licker = Licker(organisation, token)
+    sys.exit(licker.run_license_analysis())
+
+if __name__ == "__main__":
+    run()
+
+
+
+
