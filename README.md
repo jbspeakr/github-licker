@@ -18,6 +18,8 @@ without license file.
 ```
 pip install github-licker
 
+licker -h
+
 usage:
     licker [TOKEN] [options]
 
