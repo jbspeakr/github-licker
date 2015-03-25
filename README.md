@@ -17,7 +17,6 @@ without license file.
 ## How-To
 ```
 pip install github-licker
-
 licker -h
 
 usage:
