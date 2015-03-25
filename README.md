@@ -8,6 +8,8 @@ Using the [Github API v3](https://developer.github.com/v3/) including the [Licen
 Licker is able to check licenses of all repositories in your Github organisation. It helps especially identifying repos 
 without license file.
 
+**For more info, read my blog post: [Github-Licker - A Github License Checker](http://www.datahack.it/github-license-checker/).**
+
 ## Prerequisites
 - Python 3
 - [Github Token](https://github.com/blog/1509-personal-api-tokens) for increasing the unauthenticated rate limit (Optional)
