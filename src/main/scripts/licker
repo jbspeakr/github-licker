@@ -36,6 +36,9 @@ def run():
         with open('GITHUB_TOKEN', 'r') as fd:
             token = fd.readline().strip()  # Can't hurt to be paranoid
 
+    if not token:
+        print('could not find token: unauthenticated rate limits apply.')
+
     licker = Licker(organisation, token)
     sys.exit(licker.run_license_analysis())
 
