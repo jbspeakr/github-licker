@@ -12,7 +12,7 @@ use_plugin('copy_resources')
 default_task = ['analyze', 'publish']
 
 name = 'github-licker'
-version = '0.0.1'
+version = '0.0.2'
 summary = 'Licker - Your Github License Checker for Organisational Repositories.'
 description = """
     Using the Github API v3 including the [Licenses API](https://developer.github.com/v3/licenses/) developer preview,
