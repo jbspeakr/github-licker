@@ -13,10 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from collections import namedtuple
-
 import urllib.request
 import json
+
+from collections import namedtuple
+from urllib.error import HTTPError
+from urllib.request import Request
 
 Repositories = namedtuple('Repositories', ['with_license', 'without_license'])
 
@@ -42,16 +44,22 @@ class Licker(object):
 
         print('start connecting to github...')
         while json_response or page_number == 1:
-            request = urllib.request.Request(
+            request = Request(
                 url='%s%s%s' % (self.repository_url, self.page_parameter, page_number),
                 headers=self.request_headers)
 
-            if page_number == 1:
-                print('start collecting repositories...')
+            try:
+                response = urllib.request.urlopen(request).read()
+                json_response = json.loads(response.decode('utf-8'))
+                repositories.extend(json_response)
 
-            response = urllib.request.urlopen(request).read()
-            json_response = json.loads(response.decode('utf-8'))
-            repositories.extend(json_response)
+                if page_number == 1:
+                    print('start collecting repositories...')
+            except HTTPError as e:
+                if e.code == 401:
+                    print('given token is not authorized...')
+                else:
+                    print('something went wrong while connecting to github...')
 
             page_number += 1
 
@@ -82,6 +90,11 @@ class Licker(object):
 
     def run_license_analysis(self):
         all_repositories = self._fetch_repositories()
+
+        if not all_repositories:
+            print('found no repositories.')
+            return
+
         non_fork_repositories = self._fetch_license_information(all_repositories)
 
         if non_fork_repositories.with_license:
