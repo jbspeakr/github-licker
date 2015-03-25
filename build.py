@@ -15,10 +15,10 @@ name = 'github-licker'
 version = '0.0.2'
 summary = 'Licker - Your Github License Checker for Organisational Repositories.'
 description = """
-    Using the Github API v3 including the [Licenses API](https://developer.github.com/v3/licenses/) developer preview,
-    Licker is able to check licenses of all repositories in your Github organisation. It helps especially identifying
-    repos without license file.
-    """
+Using the Github API v3 including the Licenses API developer preview,
+Licker is able to check licenses of all repositories in your Github organisation.
+It helps especially identifying repos without license file.
+"""
 authors = [Author('Jan Brennenstuhl', 'jan@brennenstuhl.me')]
 url = 'https://github.com/jbspeakr/github-licker'
 license = 'Apache License 2.0'
