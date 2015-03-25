@@ -11,8 +11,6 @@ without license file.
 ## Prerequisites
 - Python 3
 - [Github Token](https://github.com/blog/1509-personal-api-tokens) for increasing the unauthenticated rate limit (Optional)
-    - a) Place the Token in the *GITHUB_TOKEN* file or 
-    - b) Hand over Token as parameter
 
 ## How-To
 ```
