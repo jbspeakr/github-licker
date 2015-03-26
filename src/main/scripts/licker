@@ -36,7 +36,8 @@ def run():
         print('no token given: unauthenticated rate limits apply.')
 
     licker = LicenseChecker(organisation, token)
-    sys.exit(licker.run_license_analysis())
+    licker.run_license_analysis()
+    sys.exit()
 
 if __name__ == "__main__":
     run()

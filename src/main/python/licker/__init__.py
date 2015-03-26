@@ -16,6 +16,7 @@
 
 import urllib.request
 import json
+import logging
 
 from collections import namedtuple
 from urllib.error import HTTPError
@@ -38,12 +39,21 @@ class LicenseChecker(object):
         if token:
             self.request_headers['Authorization'] = 'token %s' % token
 
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%dT%H:%M:%S')
+
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+
+        self.logger.addHandler(console_handler)
+
     def _fetch_repositories(self):
         page_number = 1
         repositories = []
         json_response = []
 
-        print('start connecting to github...')
+        self.logger.info('Start connecting to Github.')
         while json_response or page_number == 1:
             request = Request(
                 url='%s%s%s' % (self.repository_url, self.page_parameter, page_number),
@@ -55,12 +65,12 @@ class LicenseChecker(object):
                 repositories.extend(json_response)
 
                 if page_number == 1:
-                    print('start collecting repositories...')
+                    self.logger.info('Start collecting repositories.')
             except HTTPError as e:
                 if e.code == 401:
-                    print('given token is not authorized...')
+                    self.logger.error('Given token is not authorized.')
                 else:
-                    print('something went wrong while connecting to github...')
+                    self.logger.error('Something went wrong while connecting to Github.')
 
             page_number += 1
 
@@ -70,7 +80,7 @@ class LicenseChecker(object):
         repositories_with_license = []
         repositories_without_license = []
 
-        print('start fetching license information...')
+        self.logger.info('Start fetching license information.')
         for repository in repositories:
             if not repository['fork']:
                 request = urllib.request.Request(
@@ -82,10 +92,12 @@ class LicenseChecker(object):
 
                 if json_response['license']:
                     repositories_with_license.append({
-                        'name': repository['name'],
+                        'repo': repository['name'],
                         'license': json_response['license']['name']})
                 else:
-                    repositories_without_license.append(repository['name'])
+                    repositories_without_license.append({
+                        'repo': repository['name'],
+                        'license': 'None'})
 
         return Repositories(repositories_with_license, repositories_without_license)
 
@@ -93,17 +105,19 @@ class LicenseChecker(object):
         all_repositories = self._fetch_repositories()
 
         if not all_repositories:
-            print('found no repositories.')
+            self.logger.info('Found no repositories.')
             return
 
         non_fork_repositories = self._fetch_license_information(all_repositories)
 
         if non_fork_repositories.with_license:
-            print('\nfound %s all_repositories with license:\n' % len(non_fork_repositories.with_license))
-            for repository in non_fork_repositories.with_license:
-                print('\t%s -- %s' % (repository['name'], repository['license']))
+            self.logger.info('Found %s repositories with licenses: %s' % (
+                len(non_fork_repositories.with_license),
+                str(non_fork_repositories.with_license)))
 
         if non_fork_repositories.without_license:
-            print('\nfound %s all_repositories without license:\n' % len(non_fork_repositories.without_license))
-            for repository in non_fork_repositories.without_license:
-                print('\t%s' % repository)
+            self.logger.info('Found %s repositories without licenses: %s' % (
+                len(non_fork_repositories.without_license),
+                str(non_fork_repositories.without_license)))
+
+        return non_fork_repositories
