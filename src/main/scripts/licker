@@ -23,7 +23,7 @@ options:
 """
 
 from docopt import docopt
-from licker import Licker
+from licker import LicenseChecker
 import sys
 
 
@@ -35,7 +35,7 @@ def run():
     if not token:
         print('no token given: unauthenticated rate limits apply.')
 
-    licker = Licker(organisation, token)
+    licker = LicenseChecker(organisation, token)
     sys.exit(licker.run_license_analysis())
 
 if __name__ == "__main__":

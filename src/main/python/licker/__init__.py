@@ -13,6 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import urllib.request
 import json
 
@@ -23,7 +24,7 @@ from urllib.request import Request
 Repositories = namedtuple('Repositories', ['with_license', 'without_license'])
 
 
-class Licker(object):
+class LicenseChecker(object):
 
     def __init__(self, organisation, token):
         self.api = 'https://api.github.com'
