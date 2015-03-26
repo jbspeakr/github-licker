@@ -27,6 +27,6 @@ options:
 ```
 
 ## License
-Monocyte is licensed under [Apache License, Version 2.0](https://github.com/ImmobilienScout24/aws-monocyte/blob/master/LICENSE.txt).
+Github Licker is licensed under [Apache License, Version 2.0](https://github.com/ImmobilienScout24/aws-monocyte/blob/master/LICENSE.txt).
 
 
